@@ -5,12 +5,12 @@ socket.on('connected', function (msg) {
 });
 
 // Sending a userID will help to know if the message came from me or from others
-
-
+let myUserID = Math.random().toString(36).substr(2, 9).toUpperCase();
 
 // Your script starts here ------------------------------------------------------
 
-let myUserIndex = 1;
+//let myUserIndex = 3;
+
 
 let lastX = [0, 0, 0, 0];
 let lastY = [0, 0, 0, 0];
@@ -36,11 +36,11 @@ function mouseMoved() {
     //console.log(mouseX, mouseY);
 
     // Sending an event 
-    socket.emit('serverEvent', myUserIndex, mouseX, mouseY);
+    socket.emit('serverEvent', myUserID, mouseX, mouseY);
 }
 
 // Incoming events 
-socket.on('serverEvent', function (userIndex, x, y)  
+socket.on('serverEvent', function (myUserID, x, y)  
 {
     //console.log("Incoming event: ", user, x, y);
     
