@@ -12,7 +12,7 @@ let myUserID = Math.random().toString(36).substr(2, 9).toUpperCase();
 //let myUserIndex = 2;
 
 
-let lastX = [0, 20, 0, 0];
+let lastX = [0, 40, 80, 120];
 let lastY = [0, 0, 0, 0];
 
 let colors = ['purple', 'blue', 'yellow','green']
