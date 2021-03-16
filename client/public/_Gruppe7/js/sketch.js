@@ -9,16 +9,18 @@ let myUserID = Math.random().toString(36).substr(2, 9).toUpperCase();
 
 // Your script starts here ------------------------------------------------------
 
-//let myUserIndex = 3;
+//let myUserIndex = 2;
 
 
-let lastX = [0, 0, 0, 0];
+let lastX = [0, 20, 0, 0];
 let lastY = [0, 0, 0, 0];
+
+let colors = ['purple', 'blue', 'yellow','green']
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
-    fill(255, 128, 0);
+    //fill(255, 128, 0);
     
 }
 
@@ -27,7 +29,9 @@ function draw() {
     background(255);
        
     for (let i = 0; i < lastX.length; i++) {
-        rect(lastX[i], lastY[i], 40, 20);
+       fill(colors[i]);
+        rect(lastX[i], lastY[i], 40, 20,);
+        
     }
 
 }
