@@ -47,6 +47,19 @@ function mouseMoved() {
     socket.emit('serverEvent', myUserIndex, mouseX, mouseY);
 }
 
+function updateStatus() {
+    $('#player-status').html("There are " + playerCount + " players connected");
+
+    $('#playcolor').css("background-color", playerColors[myPlayerIndex]);
+    $('body').css("background-color", playerColors[myUserIndex]+"4"); // background color like playing color but less opacity
+
+    if (whosTurn == myUserIndex) {
+        $('#turn-status').html("It's your turn.");
+    } else {
+        $('#turn-status').html("Waiting for player " + (whosTurn+1) + ".");        
+    }
+}
+
 // Incoming events 
 socket.on('serverEvent', function (myUserIndex, x, y)  
 {
