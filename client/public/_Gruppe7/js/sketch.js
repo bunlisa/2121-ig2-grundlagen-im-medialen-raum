@@ -5,11 +5,16 @@ socket.on('connected', function (msg) {
 });
 
 // Sending a userID will help to know if the message came from me or from others
-let myUserID = Math.random().toString(36).substr(2, 9).toUpperCase();
+// let myUserID = Math.random().toString(36).substr(2, 9).toUpperCase();
 
 // Your script starts here ------------------------------------------------------
 
-//let myUserIndex = 2;
+// let myUserIndex = 2;
+let myPlayerIndex = 0;
+// let playerColors = ['#f80', '#08f', '#80f', '#0f8', '#8f0', '#f08']
+let playerCount = 0;
+// let whosTurn = 0;
+
 
 
 let lastX = [0, 40, 80, 120];
@@ -40,7 +45,7 @@ function mouseMoved() {
     //console.log(mouseX, mouseY);
 
     // Sending an event 
-    socket.emit('serverEvent', myUserID, mouseX, mouseY);
+    socket.emit('serverEvent', myUserIndex, mouseX, mouseY);
 }
 
 // Incoming events 
@@ -57,5 +62,18 @@ socket.on('serverEvent', function (myUserID, x, y)
 
     lastX[0] = x;
     lastY[0] = y;
+});
+
+socket.on('newUsersEvent', function (myID, myIndex, userList) {
+    console.log("New users event: ");
+    console.log("That's me: " + myID);
+    console.log("My index in the list: " + myIndex);
+    console.log("That's the new users: ");
+    console.log(userList);
+
+    playerCount = userList.length;
+    myPlayerIndex = myIndex;
+
+    updateStatus();
 });
 
