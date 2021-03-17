@@ -9,10 +9,9 @@ socket.on('connected', function (msg) {
 
 // Your script starts here ------------------------------------------------------
 
-// let myUserIndex = 2;
-let myPlayerIndex = 0;
+let myUserIndex = 2;
 // let playerColors = ['#f80', '#08f', '#80f', '#0f8', '#8f0', '#f08']
-let playerCount = 0;
+let userCount = 0;
 // let whosTurn = 0;
 
 
@@ -49,7 +48,7 @@ function mouseMoved() {
 }
 
 // Incoming events 
-socket.on('serverEvent', function (myUserID, x, y)  
+socket.on('serverEvent', function (myUserIndex, x, y)  
 {
     //console.log("Incoming event: ", user, x, y);
     
@@ -72,8 +71,8 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
     console.log(userList);
 
     playerCount = userList.length;
-    myPlayerIndex = myIndex;
+    myUserIndex = myIndex;
 
-    updateStatus();
+    // updateStatus();
 });
 
