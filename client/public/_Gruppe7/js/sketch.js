@@ -9,7 +9,7 @@ socket.on('connected', function (msg) {
 
 // Your script starts here ------------------------------------------------------
 
-let myUserIndex = 3;
+let myUserIndex = Math.random().toString(36).substr(2, 9).toUpperCase();
 // let playerColors = ['#f80', '#08f', '#80f', '#0f8', '#8f0', '#f08']
 let userCount = 0;
 // let whosTurn = 0;
@@ -34,7 +34,7 @@ function draw() {
        
     for (let i = 0; i < lastX.length; i++) {
        fill(colors[i]);
-        rect(lastX[i], lastY[i], 40, 20,);
+        rect(lastX[i], lastY[i], 70, 20,);
         
     }
 
@@ -64,11 +64,11 @@ socket.on('serverEvent', function (index, x, y)
 });
 
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
-    console.log("New users event: ");
-    console.log("That's me: " + myID);
-    console.log("My index in the list: " + myIndex);
-    console.log("That's the new users: ");
-    console.log(userList);
+    // console.log("New users event: ");
+    // console.log("That's me: " + myID);
+    // console.log("My index in the list: " + myIndex);
+    // console.log("That's the new users: ");
+    // console.log(userList);
 
     playerCount = userList.length;
     myUserIndex = myIndex;
