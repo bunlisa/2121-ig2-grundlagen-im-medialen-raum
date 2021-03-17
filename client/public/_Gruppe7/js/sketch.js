@@ -53,7 +53,7 @@ function draw() {
     background(255);
 
     noStroke();
-  fill(255);
+  fill(0);
   drawVertices(circle.vertices);
        
     for (let i = 0; i < lastX.length; i++) {
