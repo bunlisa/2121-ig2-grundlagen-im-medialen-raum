@@ -29,14 +29,16 @@ let colors = ['purple', 'blue', 'yellow','green']
 let engine;
 let circle;
 
+let blocks = []
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
     
     engine = Engine.create();
 
-    circle = Bodies.circle(width/2, 50, 40, {
-      restitution: 0
+    circle = Bodies.circle(200, 50, 25, {
+      restitution: 0.5
     });
     circle.plugin.wrap = {
       min: { x: 0, y: 0 },
@@ -44,6 +46,11 @@ function setup() {
     };
 
     World.add(engine.world, [circle]);
+
+    blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
+    blocks.push(Matter.Bodies.rectangle(300, 50, 30, 30, { isStatic: true }))
+    Matter.World.add(engine.world, blocks)
+  
 
   Engine.run(engine);
 }
@@ -62,6 +69,24 @@ function draw() {
         
     }
 
+    fill(255, 0, 0);
+    blocks.forEach(bridge => drawBody(bridge))
+}
+
+function drawBody(body) {
+  if (body.parts && body.parts.length > 1) {
+    body.parts.filter((part, i) => i > 0).forEach((part, i) => {
+      drawVertices(part.vertices)
+    })
+  } else {
+    if (body.type == "composite") {
+      body.bodies.forEach((body, i) => {
+        drawVertices(body.vertices)
+      })
+    } else {
+      drawVertices(body.vertices)
+    }
+  }
 }
 
 function mouseMoved() {
