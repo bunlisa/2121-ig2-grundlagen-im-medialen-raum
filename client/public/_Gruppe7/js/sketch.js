@@ -19,7 +19,7 @@ const Constraint = Matter.Constraint;
 
 let myPlayerIndex = Math.random().toString(36).substr(2, 9).toUpperCase();
 
-let playerCount = 0;
+let PlayerCount = 0;
 
 
 // let lastX = [0, 40, 80, 120];
@@ -31,7 +31,7 @@ let engine;
 let circle;
 
 let blocks = []
-let board;
+let board = [];
 let constraint =[];
 
 function setup() {
@@ -50,7 +50,7 @@ function setup() {
 
     World.add(engine.world, [circle]);
 
-    //blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
+    // blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
     
     board = Bodies.rectangle(300, 200, 200, 30);
     //board.inertia = 200000;
@@ -71,7 +71,7 @@ function setup() {
     World.add(engine.world, [board, constraint1, constraint2]);
     //Matter.World.add(engine.world, blocks)
 
-    board1 = Bodies.rectangle(200, 100, 200, 30);
+    board1 = Bodies.rectangle(400, 100, 200, 30);
     blocks.push(board1);
     constraint3 = Constraint.create({
       pointA: { x: 150, y: 200 },
@@ -100,12 +100,10 @@ function draw() {
   fill(0);
   drawVertices(circle.vertices);
        
-    for (let i = 0; i < board.length; i++) {
-       fill(colors[i]);
-    //     board(lastX[i], lastY[i], 70, 20,);
-     
-
-    }
+    // for (let i = 0; i < lastX.length; i++) {
+    //    fill(colors[i]);
+    //   rect(lastX[i], lastY[i], 70, 20,);
+    // }
 
     fill(255, 0, 0);
     blocks.forEach(bridge => drawBody(bridge))
@@ -131,7 +129,7 @@ function mouseMoved() {
     //console.log(mouseX, mouseY);
 
     // Sending an event 
-    socket.emit('serverEvent', myUserIndex, mouseX, mouseY);
+    socket.emit('serverEvent', myPlayerIndex, mouseX, mouseY);
 
     // updateStatus();
 
@@ -167,10 +165,10 @@ socket.on('serverEvent', function (index, x, y)
     
 });
 
-socket.on('newUsersEvent', function (myID, myIndex, userList) {
+socket.on('newUsersEvent', function (myID, myIndex, playerList) {
 
-    playerCount = userList.length;
-    myUserIndex = myIndex;
+    playerCount = playerList.length;
+    myPlayerIndex = myIndex;
 
     // updateStatus();
 });
