@@ -22,8 +22,8 @@ let myPlayerIndex = Math.random().toString(36).substr(2, 9).toUpperCase();
 let playerCount = 0;
 
 
-let lastX = [0, 40, 80, 120];
-let lastY = [0, 0, 0, 0];
+// let lastX = [0, 40, 80, 120];
+// let lastY = [0, 0, 0, 0];
 
 let colors = ['purple', 'blue', 'yellow','green']
 
@@ -32,8 +32,8 @@ let circle;
 
 let blocks = []
 let board;
-let constraint1;
-let constraint2;
+let constraint1 ;
+let constraint2 ;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -84,11 +84,11 @@ function draw() {
   fill(0);
   drawVertices(circle.vertices);
        
-    for (let i = 0; i < lastX.length; i++) {
-       fill(colors[i]);
-        rect(lastX[i], lastY[i], 70, 20,);
+    // for (let i = 0; i < lastX.length; i++) {
+    //    fill(colors[i]);
+    //     rect(lastX[i], lastY[i], 70, 20,);
         
-    }
+    // }
 
     fill(255, 0, 0);
     blocks.forEach(bridge => drawBody(bridge))
@@ -140,8 +140,8 @@ socket.on('serverEvent', function (index, x, y)
 {
 
 // ein Spieler, ein Balken
-    lastX[index] = x;
-    lastY[index] = y;
+    // lastX[index] = x;
+    // lastY[index] = y;
 
     constraint1.pointA = {x: x-150, y:y-20};
     constraint2.pointA = {x: x+150, y:y+20};
