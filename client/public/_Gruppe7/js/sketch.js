@@ -15,6 +15,7 @@ const Render = Matter.Render;
 const World = Matter.World;
 const Body = Matter.Body;
 const Bodies = Matter.Bodies;
+const Constraint = Matter.Constraint;
 
 let myPlayerIndex = Math.random().toString(36).substr(2, 9).toUpperCase();
 
@@ -30,6 +31,9 @@ let engine;
 let circle;
 
 let blocks = []
+let board;
+let constraint1;
+let constraint2;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -47,9 +51,26 @@ function setup() {
 
     World.add(engine.world, [circle]);
 
-    blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
-    blocks.push(Matter.Bodies.rectangle(300, 50, 30, 30, { isStatic: true }))
-    Matter.World.add(engine.world, blocks)
+    //blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
+    
+    board = Bodies.rectangle(300, 200, 200, 30);
+    //board.inertia = 200000;
+    blocks.push(board);
+    constraint1 = Constraint.create({
+      pointA: { x: 150, y: 200 },
+      bodyB: board,
+      pointB: { x: -150, y: 0 },
+      stiffness: 0.5,
+    });
+    constraint2 = Constraint.create({
+      pointA: { x: 450, y: 200 },
+      bodyB: board,
+      pointB: { x: 150, y: 0 },
+      stiffness: 0.5,
+    });
+    constraint2.pointA.y = 230;
+    World.add(engine.world, [board, constraint1, constraint2]);
+    //Matter.World.add(engine.world, blocks)
   
 
   Engine.run(engine);
@@ -121,6 +142,9 @@ socket.on('serverEvent', function (index, x, y)
 // ein Spieler, ein Balken
     lastX[index] = x;
     lastY[index] = y;
+
+    constraint1.pointA = {x: x-150, y:y-20};
+    constraint2.pointA = {x: x+150, y:y+20};
 });
 
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
@@ -130,4 +154,3 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
     // updateStatus();
 });
-
