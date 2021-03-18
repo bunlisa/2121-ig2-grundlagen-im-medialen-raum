@@ -32,8 +32,7 @@ let circle;
 
 let blocks = []
 let board;
-let constraint1 ;
-let constraint2 ;
+let constraint =[];
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -71,7 +70,24 @@ function setup() {
     constraint2.pointA.y = 230;
     World.add(engine.world, [board, constraint1, constraint2]);
     //Matter.World.add(engine.world, blocks)
-  
+
+    board1 = Bodies.rectangle(200, 100, 200, 30);
+    blocks.push(board1);
+    constraint3 = Constraint.create({
+      pointA: { x: 150, y: 200 },
+      bodyB: board1,
+      pointB: { x: -150, y: 0 },
+      stiffness: 0.5,
+    });
+    constraint4 = Constraint.create({
+      pointA: { x: 450, y: 200 },
+      bodyB: board1,
+      pointB: { x: 150, y: 0 },
+      stiffness: 0.5,
+    });
+    
+    constraint4.pointA.y = 280;
+    World.add(engine.world, [board1,constraint3,constraint4]);
 
   Engine.run(engine);
 }
@@ -84,11 +100,12 @@ function draw() {
   fill(0);
   drawVertices(circle.vertices);
        
-    // for (let i = 0; i < lastX.length; i++) {
-    //    fill(colors[i]);
-    //     rect(lastX[i], lastY[i], 70, 20,);
-        
-    // }
+    for (let i = 0; i < board.length; i++) {
+       fill(colors[i]);
+    //     board(lastX[i], lastY[i], 70, 20,);
+     
+
+    }
 
     fill(255, 0, 0);
     blocks.forEach(bridge => drawBody(bridge))
@@ -145,6 +162,9 @@ socket.on('serverEvent', function (index, x, y)
 
     constraint1.pointA = {x: x-150, y:y-20};
     constraint2.pointA = {x: x+150, y:y+20};
+    constraint3.pointA = {x: x-150, y:y-20};
+    constraint4.pointA = {x: x+150, y:y+20};
+    
 });
 
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
