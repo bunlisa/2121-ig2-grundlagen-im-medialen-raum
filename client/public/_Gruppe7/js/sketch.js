@@ -19,7 +19,7 @@ const Constraint = Matter.Constraint;
 
 let myPlayerIndex = Math.random().toString(36).substr(2, 9).toUpperCase();
 
-let PlayerCount = 0;
+let playerCount = 0;
 
 
 // let lastX = [0, 40, 80, 120];
@@ -31,8 +31,9 @@ let engine;
 let circle;
 
 let blocks = []
-let board = [];
-let constraint =[];
+let board = []
+
+let boardConstraints =[]
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -50,44 +51,95 @@ function setup() {
 
     World.add(engine.world, [circle]);
 
-    // blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
-    
-    board = Bodies.rectangle(300, 200, 200, 30);
+    //blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
+
+//Board 1   
+    board1 = Bodies.rectangle(300, 0, 200, 30);
     //board.inertia = 200000;
-    blocks.push(board);
+    blocks.push(board1);
+
     constraint1 = Constraint.create({
-      pointA: { x: 150, y: 200 },
-      bodyB: board,
+      pointA: { x: 150, y: 0 },
+      bodyB: board1,
       pointB: { x: -150, y: 0 },
+      length: 0,
       stiffness: 0.5,
     });
     constraint2 = Constraint.create({
-      pointA: { x: 450, y: 200 },
-      bodyB: board,
+      pointA: { x: 450, y: 0 },
+      bodyB: board1,
       pointB: { x: 150, y: 0 },
+      length: 0,
       stiffness: 0.5,
     });
-    constraint2.pointA.y = 230;
-    World.add(engine.world, [board, constraint1, constraint2]);
-    //Matter.World.add(engine.world, blocks)
+    boardConstraints.push([constraint1, constraint2]);
+  World.add(engine.world, [board1, constraint1, constraint2]);
 
-    board1 = Bodies.rectangle(400, 100, 200, 30);
-    blocks.push(board1);
+//Board 2
+    board2 = Bodies.rectangle(300, 100, 200, 30);
+    //board.inertia = 200000;
+    blocks.push(board2);
+
     constraint3 = Constraint.create({
-      pointA: { x: 150, y: 200 },
-      bodyB: board1,
+      pointA: { x: 150, y: 100 },
+      bodyB: board2,
       pointB: { x: -150, y: 0 },
       stiffness: 0.5,
     });
     constraint4 = Constraint.create({
-      pointA: { x: 450, y: 200 },
-      bodyB: board1,
+      pointA: { x: 450, y: 100 },
+      bodyB: board2,
       pointB: { x: 150, y: 0 },
       stiffness: 0.5,
     });
-    
-    constraint4.pointA.y = 280;
-    World.add(engine.world, [board1,constraint3,constraint4]);
+   
+    boardConstraints.push([constraint3, constraint4]);
+  World.add(engine.world, [board2, constraint3, constraint4]);
+
+
+
+
+//Board 3
+    board3 = Bodies.rectangle(300, 200, 200, 30);
+    blocks.push(board3);
+
+      constraint5 = Constraint.create({
+        pointA: { x: 150, y: 200 },
+        bodyB: board3,
+        pointB: { x: -150, y: 0 },
+        stiffness: 0.5,
+      });
+      constraint6 = Constraint.create({
+        pointA: { x: 450, y: 200 },
+        bodyB: board3,
+        pointB: { x: 150, y: 0 },
+        stiffness: 0.5,
+      });
+      boardConstraints.push([constraint5, constraint6]);
+
+    World.add(engine.world, [board3, constraint5, constraint6]);
+
+//Board 4
+      board4 = Bodies.rectangle(300, 300, 200, 30);
+      //board.inertia = 200000;
+      blocks.push(board4);
+
+       constraint7 = Constraint.create({
+        pointA: { x: 150, y: 300 },
+        bodyB: board4,
+        pointB: { x: -150, y: 0 },
+        stiffness: 0.5,
+      });
+      constraint8 = Constraint.create({
+        pointA: { x: 450, y: 300 },
+        bodyB: board4,
+        pointB: { x: 150, y: 0 },
+        stiffness: 0.5,
+      });
+      boardConstraints.push([constraint3, constraint4]);
+      World.add(engine.world, [board4, constraint7, constraint8]);
+    Matter.World.add(engine.world, board)
+  
 
   Engine.run(engine);
 }
@@ -102,11 +154,12 @@ function draw() {
        
     // for (let i = 0; i < lastX.length; i++) {
     //    fill(colors[i]);
-    //   rect(lastX[i], lastY[i], 70, 20,);
+    //     rect(lastX[i], lastY[i], 70, 20,);
+        
     // }
 
     fill(255, 0, 0);
-    blocks.forEach(bridge => drawBody(bridge))
+    blocks.forEach(board => drawBody(board))
 }
 
 function drawBody(body) {
@@ -126,12 +179,8 @@ function drawBody(body) {
 }
 
 function mouseMoved() {
-    //console.log(mouseX, mouseY);
-
-    // Sending an event 
+    
     socket.emit('serverEvent', myPlayerIndex, mouseX, mouseY);
-
-    // updateStatus();
 
 }
 
@@ -152,23 +201,17 @@ function drawVertices(vertices) {
 
 // Incoming events 
 socket.on('serverEvent', function (index, x, y)  
+
 {
 
-// ein Spieler, ein Balken
-    // lastX[index] = x;
-    // lastY[index] = y;
+  boardConstraints[index][0].pointA = {x: x-100, y:y-20};
+  boardConstraints[index][1].pointA = {x: x+100, y:y+20};
 
-    constraint1.pointA = {x: x-150, y:y-20};
-    constraint2.pointA = {x: x+150, y:y+20};
-    constraint3.pointA = {x: x-150, y:y-20};
-    constraint4.pointA = {x: x+150, y:y+20};
-    
 });
 
-socket.on('newUsersEvent', function (myID, myIndex, playerList) {
+socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
-    playerCount = playerList.length;
+    playerCount = userList.length;
     myPlayerIndex = myIndex;
 
-    // updateStatus();
 });
