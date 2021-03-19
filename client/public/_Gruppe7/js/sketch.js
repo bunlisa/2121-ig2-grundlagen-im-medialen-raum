@@ -1,8 +1,8 @@
 // Connecting to server. Don't touch this :-) 
 let socket = io();
-socket.on('connected', function (msg) {
-    console.log(msg);
-});
+// socket.on('connected', function (msg) {
+//     console.log(msg);
+// });
 
 // Sending a userID will help to know if the message came from me or from others
 // let myUserID = Math.random().toString(36).substr(2, 9).toUpperCase();
@@ -42,11 +42,11 @@ socket.on('serverEvent', function (message) {
     // console.log("Incoming event: ", user, x, y);
 
     if (message.type == "reset") {
-      Matter.Body.setPosition(circle, {x: 10, y: 10});
-      Matter.Body.setPosition(board1, {x: 10, y: 200});
-      Matter.Body.setPosition(board2, {x: 10, y: 300});
-      Matter.Body.setPosition(board3, {x: 10, y: 400});
-      Matter.Body.setPosition(board4, {x: 10, y: 500});
+      Body.setPosition(circle, {x: 10, y: 10});
+      Body.setPosition(board1, {x: 10, y: 200});
+      Body.setPosition(board2, {x: 10, y: 300});
+      Body.setPosition(board3, {x: 10, y: 400});
+      Body.setPosition(board4, {x: 10, y: 500});
     }
 });
 function setup() {
@@ -212,8 +212,8 @@ function drawBody(body) {
 }
 
 function mouseMoved() {
-    
-    socket.emit('serverEvent', myPlayerIndex, mouseX, mouseY);
+    console.log(myPlayerIndex);
+    socket.emit('serverEvent', "move", myPlayerIndex, mouseX, mouseY);
 }
 
 function drawVertices(vertices) {
@@ -225,11 +225,16 @@ function drawVertices(vertices) {
 }
 
 // Incoming events 
-socket.on('serverEvent', function (index, x, y)  
+socket.on('serverEvent', function (type, index, x, y)  
 
 {
-  boardConstraints[index][0].pointA = {x: x-100, y:y-20};
-  boardConstraints[index][1].pointA = {x: x+100, y:y+20};
+
+  // console.log(index);
+  if(type == "move") {
+    boardConstraints[index][0].pointA = {x: x-100, y:y-20};
+    boardConstraints[index][1].pointA = {x: x+100, y:y+20};
+  }
+    
 });
 
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
