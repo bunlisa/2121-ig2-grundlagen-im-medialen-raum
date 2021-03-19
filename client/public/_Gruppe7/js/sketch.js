@@ -23,8 +23,29 @@ let circle;
 
 let blocks = []
 let board = []
+let wände = []
 
 let boardConstraints =[]
+
+// class Block {
+//   constructor(attrs, options) {
+//     this.x = attrs.x
+//     this.y = attrs.y
+//     this.w = attrs.w
+//     this.h = attrs.h
+//     this.color = attrs.color
+//     this.body = Matter.Bodies.rectangle(this.x + this.w / 2, this.y + this.h / 2, this.w, this.h, options)
+//     Matter.World.add(engine.world, [this.body])
+//   }
+
+//   show() {
+//     fill(this.color)
+//     drawBody(this.body)
+//     // rect(this.x, this.y, this.w, this.h)
+//   }
+// }
+
+
 
 function keyPressed() {
   if (key == " ") {
@@ -44,7 +65,7 @@ function setup() {
     engine = Engine.create();
 
     circle = Bodies.circle(200, 50, 25, {
-      restitution: 0.5
+      restitution: 0
     });
     circle.plugin.wrap = {
       min: { x: 0, y: 0 },
@@ -53,49 +74,43 @@ function setup() {
 
     World.add(engine.world, [circle]);
 // 1.Stufe
-blocks.push(Bodies.rectangle(19, 121, 94, 23, {isStatic: true, angle: Math.PI * 0.06}));
-blocks.push(Bodies.rectangle(282, 146, 143, 292, {isStatic: true}));
-blocks.push(Bodies.rectangle(28, 516, 56, 322, {isStatic: true}));
-blocks.push(Bodies.rectangle(118, 730, 236, 117, {isStatic: true}));
-blocks.push(Bodies.rectangle(318, 446, 71, 310, {isStatic: true}));
-blocks.push(Bodies.rectangle(461, 756, 184, 60, {isStatic: true}));
-blocks.push(Bodies.rectangle(506, 700, 94, 52, {isStatic: true}));
-blocks.push(Bodies.rectangle(529, 652, 48, 45, {isStatic: true}));
-blocks.push(Bodies.rectangle(473, 52, 169, 50, {isStatic: true}));
+wände.push(Bodies.rectangle(19, 121, 94, 23, {isStatic: true, angle: Math.PI * 0.06}));
+wände.push(Bodies.rectangle(282, 146, 143, 292, {isStatic: true}));
+wände.push(Bodies.rectangle(28, 516, 56, 322, {isStatic: true}));
+wände.push(Bodies.rectangle(118, 730, 236, 117, {isStatic: true}));
+wände.push(Bodies.rectangle(318, 446, 71, 310, {isStatic: true}));
+wände.push(Bodies.rectangle(461, 756, 184, 60, {isStatic: true}));
+wände.push(Bodies.rectangle(506, 700, 94, 52, {isStatic: true}));
+wände.push(Bodies.rectangle(529, 652, 48, 45, {isStatic: true}));
+wände.push(Bodies.rectangle(473, 52, 169, 50, {isStatic: true}));
 
-//Flappy Bird
 //obere Balken
-blocks.push(Bodies.rectangle(604, 52, 23, 107, {isStatic: true}));
-blocks.push(Bodies.rectangle(733, 232, 23, 463, {isStatic: true}));
-blocks.push(Bodies.rectangle(862, 177, 23, 356, {isStatic: true}));
+wände.push(Bodies.rectangle(604, 52, 23, 107, {isStatic: true}));
+wände.push(Bodies.rectangle(733, 232, 23, 463, {isStatic: true}));
+wände.push(Bodies.rectangle(862, 177, 23, 356, {isStatic: true}));
 
 // //untere Balken
-blocks.push(Bodies.rectangle(604, 490, 23, 592, {isStatic: true}));
-blocks.push(Bodies.rectangle(733, 678, 23, 215, {isStatic: true}));
-blocks.push(Bodies.rectangle(861, 619, 23, 332, {isStatic: true}));
-// // 2.Stufe
-// blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+wände.push(Bodies.rectangle(604, 490, 23, 592, {isStatic: true}));
+wände.push(Bodies.rectangle(733, 678, 23, 215, {isStatic: true}));
+wände.push(Bodies.rectangle(861, 619, 23, 332, {isStatic: true}));
 
 // //3.Stufe
-// blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+wände.push(Bodies.rectangle(1355, 116, 176, 52, {isStatic: true}));
+wände.push(Bodies.rectangle(1400, 240, 75, 196, {isStatic: true}));
+wände.push(Bodies.rectangle(1225, 769, 436, 52, {isStatic: true}));
+wände.push(Bodies.rectangle(944, 341, 113, 17, {isStatic: true, angle: Math.PI * 0.06}));
+wände.push(Bodies.rectangle(944, 654, 113, 17, {isStatic: true, angle: Math.PI * 0.06, restitution: 0.8}));
+wände.push(Bodies.rectangle(1278, 521, 86, 17, {isStatic: true, angle: Math.PI * 0.06}));
+wände.push(Bodies.rectangle(1167, 588, 113, 17, {isStatic: true, angle: Math.PI * -0.06}));
+wände.push(Bodies.rectangle(1399, 540, 98, 17, {isStatic: true, angle: Math.PI * -0.15}));
 
-// blocks.push(Bodies.rectangle(0, 1408, 2560, 192, {isStatic: true}));
+wände.push(Bodies.rectangle(721, 830, 1443, 108, {isStatic: true}));
 
-World.add(engine.world, blocks)
+World.add(engine.world, wände)
 
 //Board 1   
-    board1 = Bodies.rectangle(300, 0, 200, 30);
+    // board1 = blocks.push(new Block({x: 300, y: 0, w: 200, h: 30, color: 'blue'}));
+    board1 = Bodies.rectangle(300, 0, 200, 30, {color: 'blue'});
     blocks.push(board1);
 
     constraint1 = Constraint.create({
@@ -116,7 +131,7 @@ World.add(engine.world, blocks)
   World.add(engine.world, [board1, constraint1, constraint2]);
 
 //Board 2
-    board2 = Bodies.rectangle(300, 100, 200, 30);
+    board2 = Bodies.rectangle(300, 100, 200, 30, {color: 'green'});
     blocks.push(board2);
 
     constraint3 = Constraint.create({
@@ -139,7 +154,7 @@ World.add(engine.world, blocks)
 
 
 //Board 3
-    board3 = Bodies.rectangle(300, 200, 200, 30);
+    board3 = Bodies.rectangle(300, 200, 200, 30, {color: 'red'});
     blocks.push(board3);
 
       constraint5 = Constraint.create({
@@ -159,7 +174,7 @@ World.add(engine.world, blocks)
     World.add(engine.world, [board3, constraint5, constraint6]);
 
 //Board 4
-      board4 = Bodies.rectangle(300, 300, 200, 30);
+      board4 = Bodies.rectangle(300, 300, 200, 30, {color: 'orange'});
       blocks.push(board4);
 
        constraint7 = Constraint.create({
@@ -176,8 +191,6 @@ World.add(engine.world, blocks)
       });
       boardConstraints.push([constraint7, constraint8]);
       World.add(engine.world, [board4, constraint7, constraint8]);
-
-
     Matter.World.add(engine.world, board)
   
 
@@ -191,8 +204,11 @@ function draw() {
     
     drawVertices(circle.vertices);
 
-    fill(180, 0, 255);
+    // fill(this.color);
     blocks.forEach(board => drawBody(board))
+
+    fill(0, 200, 250);
+    wände.forEach(board => drawBody(board))
 }
 
 function drawBody(body) {
