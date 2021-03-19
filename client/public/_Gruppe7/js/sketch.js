@@ -37,18 +37,6 @@ socket.on('connected', function (msg) {
 });
 
 
-// Incoming events 
-socket.on('serverEvent', function (message) {
-    // console.log("Incoming event: ", user, x, y);
-
-    if (message.type == "reset") {
-      Body.setPosition(circle, {x: 10, y: 10});
-      Body.setPosition(board1, {x: 10, y: 200});
-      Body.setPosition(board2, {x: 10, y: 300});
-      Body.setPosition(board3, {x: 10, y: 400});
-      Body.setPosition(board4, {x: 10, y: 500});
-    }
-});
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
@@ -212,9 +200,8 @@ function drawBody(body) {
 }
 
 function mouseMoved() {
-    console.log(myPlayerIndex);
-    socket.emit('serverEvent', "move", myPlayerIndex, mouseX, mouseY);
-}
+    socket.emit('serverEvent', {type: "move", index: myPlayerIndex, x: mouseX, y: mouseY} );
+} 
 
 function drawVertices(vertices) {
     beginShape();
@@ -224,17 +211,24 @@ function drawVertices(vertices) {
     endShape(CLOSE);
 }
 
+
 // Incoming events 
-socket.on('serverEvent', function (type, index, x, y)  
+socket.on('serverEvent', function (message) {
+  // console.log("Incoming event: ", user, x, y);
 
-{
-
-  // console.log(index);
-  if(type == "move") {
-    boardConstraints[index][0].pointA = {x: x-100, y:y-20};
-    boardConstraints[index][1].pointA = {x: x+100, y:y+20};
+  if(message.type == "move") {
+    boardConstraints[message.index][0].pointA = {x: message.x-100, y: message.y-20};
+    boardConstraints[message.index][1].pointA = {x: message.x+100, y: message.y+20};
   }
-    
+
+  if (message.type == "reset") {
+    Body.setPosition(circle, {x: 10, y: 10});
+    Body.setPosition(board1, {x: 10, y: 200});
+    Body.setPosition(board2, {x: 10, y: 300});
+    Body.setPosition(board3, {x: 10, y: 400});
+    Body.setPosition(board4, {x: 10, y: 500});
+  }
+
 });
 
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
