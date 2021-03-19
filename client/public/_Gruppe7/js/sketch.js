@@ -63,6 +63,16 @@ blocks.push(Bodies.rectangle(506, 700, 94, 52, {isStatic: true}));
 blocks.push(Bodies.rectangle(529, 652, 48, 45, {isStatic: true}));
 blocks.push(Bodies.rectangle(473, 52, 169, 50, {isStatic: true}));
 
+//Flappy Bird
+//obere Balken
+blocks.push(Bodies.rectangle(604, 52, 23, 107, {isStatic: true}));
+blocks.push(Bodies.rectangle(733, 232, 23, 463, {isStatic: true}));
+blocks.push(Bodies.rectangle(862, 177, 23, 356, {isStatic: true}));
+
+// //untere Balken
+blocks.push(Bodies.rectangle(604, 490, 23, 592, {isStatic: true}));
+blocks.push(Bodies.rectangle(733, 678, 23, 215, {isStatic: true}));
+blocks.push(Bodies.rectangle(861, 619, 23, 332, {isStatic: true}));
 // // 2.Stufe
 // blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
 // blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
@@ -166,6 +176,8 @@ World.add(engine.world, blocks)
       });
       boardConstraints.push([constraint7, constraint8]);
       World.add(engine.world, [board4, constraint7, constraint8]);
+
+
     Matter.World.add(engine.world, board)
   
 
