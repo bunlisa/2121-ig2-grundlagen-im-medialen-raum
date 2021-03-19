@@ -50,6 +50,33 @@ function setup() {
     };
 
     World.add(engine.world, [circle]);
+// 1.Stufe
+blocks.push(Bodies.rectangle(90, 130, 165, 40));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(80, 630, 280, 170));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+
+// 2.Stufe
+blocks.push(Bodies.rectangle(90, 130, 165, 40));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(80, 630, 280, 170));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+
+//3.Stufe
+blocks.push(Bodies.rectangle(90, 130, 165, 40));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(80, 630, 280, 170));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
+
+blocks.push(Bodies.rectangle(360, 250, 264, 500));
 
     //blocks.push(Matter.Bodies.rectangle(200, 300, 30, 30, { isStatic: true }))
 
