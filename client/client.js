@@ -41,7 +41,7 @@ client.on('connect', function () {
 client.on('message', function (topic, message) {
         
     if (topic.endsWith('/serverEvent')) {
-        console.log("Incoming from mqtt: " + topic + ", " + message);
+        // console.log("Incoming from mqtt: " + topic + ", " + message);
         // parse message to array
         let args = JSON.parse(message);
         // first argument of the message is the sender id
@@ -118,7 +118,7 @@ io.sockets.on('connection', function (socket) {
         // Put userID and all arguments in an array and stringify it
         let args = JSON.stringify([userID, ...arguments]);
         // Publish to mqtt
-        console.log('Publishing to mqtt:', args);
+        // console.log('Publishing to mqtt:', args);
         client.publish(myTopic + '/serverEvent', args);
     }); 
 
