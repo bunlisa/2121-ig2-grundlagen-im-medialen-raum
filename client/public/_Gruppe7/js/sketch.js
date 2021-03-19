@@ -51,32 +51,34 @@ function setup() {
 
     World.add(engine.world, [circle]);
 // 1.Stufe
-blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+blocks.push(Bodies.rectangle(19, 121, 94, 23, {isStatic: true, angle: Math.PI * 0.06}));
+blocks.push(Bodies.rectangle(282, 146, 143, 292, {isStatic: true}));
+blocks.push(Bodies.rectangle(28, 516, 56, 322, {isStatic: true}));
+blocks.push(Bodies.rectangle(118, 730, 236, 117, {isStatic: true}));
+blocks.push(Bodies.rectangle(318, 446, 71, 310, {isStatic: true}));
+blocks.push(Bodies.rectangle(461, 756, 184, 60, {isStatic: true}));
+blocks.push(Bodies.rectangle(506, 700, 94, 52, {isStatic: true}));
+blocks.push(Bodies.rectangle(529, 652, 48, 45, {isStatic: true}));
+blocks.push(Bodies.rectangle(473, 52, 169, 50, {isStatic: true}));
 
-// 2.Stufe
-blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// // 2.Stufe
+// blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
 
-//3.Stufe
-blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// //3.Stufe
+// blocks.push(Bodies.rectangle(90, 130, 165, 40, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(80, 630, 280, 170, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
 
-blocks.push(Bodies.rectangle(360, 250, 264, 500, {isStatic: true}));
+// blocks.push(Bodies.rectangle(0, 1408, 2560, 192, {isStatic: true}));
 
 World.add(engine.world, blocks)
 
@@ -84,7 +86,6 @@ World.add(engine.world, blocks)
 
 //Board 1   
     board1 = Bodies.rectangle(300, 0, 200, 30);
-    //board.inertia = 200000;
     blocks.push(board1);
 
     constraint1 = Constraint.create({
@@ -106,7 +107,6 @@ World.add(engine.world, blocks)
 
 //Board 2
     board2 = Bodies.rectangle(300, 100, 200, 30);
-    //board.inertia = 200000;
     blocks.push(board2);
 
     constraint3 = Constraint.create({
@@ -150,7 +150,6 @@ World.add(engine.world, blocks)
 
 //Board 4
       board4 = Bodies.rectangle(300, 300, 200, 30);
-      //board.inertia = 200000;
       blocks.push(board4);
 
        constraint7 = Constraint.create({
@@ -165,7 +164,7 @@ World.add(engine.world, blocks)
         pointB: { x: 150, y: 0 },
         stiffness: 0.5,
       });
-      boardConstraints.push([constraint3, constraint4]);
+      boardConstraints.push([constraint7, constraint8]);
       World.add(engine.world, [board4, constraint7, constraint8]);
     Matter.World.add(engine.world, board)
   
