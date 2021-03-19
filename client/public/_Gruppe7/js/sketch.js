@@ -18,15 +18,6 @@ const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
 let myPlayerIndex = Math.random().toString(36).substr(2, 9).toUpperCase();
-
-let playerCount = 0;
-
-
-// let lastX = [0, 40, 80, 120];
-// let lastY = [0, 0, 0, 0];
-
-let colors = ['purple', 'blue', 'yellow','green']
-
 let engine;
 let circle;
 
@@ -35,6 +26,29 @@ let board = []
 
 let boardConstraints =[]
 
+function keyPressed() {
+  if (key == " ") {
+      socket.emit('serverEvent', {type:"reset"});
+  }
+}
+// Event when connecting 
+socket.on('connected', function (msg) {
+    socket.emit('serverEvent', {type:"reset"});
+});
+
+
+// Incoming events 
+socket.on('serverEvent', function (message) {
+    // console.log("Incoming event: ", user, x, y);
+
+    if (message.type == "reset") {
+      Matter.Body.setPosition(circle, {x: 10, y: 10});
+      Matter.Body.setPosition(board1, {x: 10, y: 200});
+      Matter.Body.setPosition(board2, {x: 10, y: 300});
+      Matter.Body.setPosition(board3, {x: 10, y: 400});
+      Matter.Body.setPosition(board4, {x: 10, y: 500});
+    }
+});
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
@@ -81,8 +95,6 @@ blocks.push(Bodies.rectangle(473, 52, 169, 50, {isStatic: true}));
 // blocks.push(Bodies.rectangle(0, 1408, 2560, 192, {isStatic: true}));
 
 World.add(engine.world, blocks)
-
-    // blocks.push(Matter.Bodies.rectangle(800, 300, 30, 30, { isStatic: true }))
 
 //Board 1   
     board1 = Bodies.rectangle(300, 0, 200, 30);
@@ -173,18 +185,11 @@ World.add(engine.world, blocks)
 }
 
 function draw() {
-    // put drawing code here
     background(255);
-
     noStroke();
-  fill(0);
-  drawVertices(circle.vertices);
-       
-    // for (let i = 0; i < lastX.length; i++) {
-    //    fill(colors[i]);
-    //     rect(lastX[i], lastY[i], 70, 20,);
-        
-    // }
+    fill(0);
+    
+    drawVertices(circle.vertices);
 
     fill(180, 0, 255);
     blocks.forEach(board => drawBody(board))
@@ -209,7 +214,6 @@ function drawBody(body) {
 function mouseMoved() {
     
     socket.emit('serverEvent', myPlayerIndex, mouseX, mouseY);
-
 }
 
 function drawVertices(vertices) {
@@ -218,23 +222,14 @@ function drawVertices(vertices) {
       vertex(vertices[i].x, vertices[i].y);
     }
     endShape(CLOSE);
-  }
-
-//function updateStatus() {
-//   $('#player-status').html("There are " + playerCount + " players connected");
-//    $('#playcolor').css("background-color", playerColors[myPlayerIndex]);
-//    $('body').css("background-color", playerColors[myUserIndex]+"4"); // background color like playing color but less opacity
-
-//}
+}
 
 // Incoming events 
 socket.on('serverEvent', function (index, x, y)  
 
 {
-
   boardConstraints[index][0].pointA = {x: x-100, y:y-20};
   boardConstraints[index][1].pointA = {x: x+100, y:y+20};
-
 });
 
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
