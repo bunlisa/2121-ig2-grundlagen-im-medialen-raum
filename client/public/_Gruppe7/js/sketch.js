@@ -176,6 +176,19 @@ World.add(engine.world, walls)
       });
       boardConstraints.push([constraint7, constraint8]);
       World.add(engine.world, [board4, constraint7, constraint8]);
+
+  // Matter.Events.on(engine, 'collisionStart', function (event) {
+  //   const pairs = event.pairs[0];
+  //   const bodyA = pairs.bodyA;
+  //   const bodyB = pairs.bodyB;
+
+  //   //Boden
+  //   if (bodyA.label === "ball" && bodyB.label === "boden") {
+  //     Matter.World.remove(engine.world, blocks[25]),
+  //     Matter.Body.setPosition(balls, { x: 10, y: 10 })
+  //     //alert ("You Lost")
+  //     }
+  //   });
   
 
   Engine.run(engine);
