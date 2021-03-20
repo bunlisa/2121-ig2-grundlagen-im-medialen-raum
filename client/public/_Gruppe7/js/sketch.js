@@ -9,7 +9,6 @@ let socket = io();
 
 // Your script starts here ------------------------------------------------------
 
-Matter.use('matter-wrap');
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -28,6 +27,8 @@ let blocks3 = []
 let wände = []
 let mauern = []
 let walls = []
+let boden = []
+let ziel = []
 
 let boardConstraints =[]
 
@@ -47,15 +48,14 @@ function setup() {
     noStroke();
     
     engine = Engine.create();
-
+    // Ball
     circle = Bodies.circle(200, 50, 25, {
-      restitution: 0.1
+      restitution: 0,
+      density: 7,
+      friction: -0.07,
+      label: 'ball'
     });
-    circle.plugin.wrap = {
-      min: { x: 0, y: 0 },
-      max: { x: width, y: height }
-    };
-
+    
     World.add(engine.world, [circle]);
 
 // 1.Stufe
@@ -69,7 +69,6 @@ wände.push(Bodies.rectangle(318, 381, 71, 180, {isStatic: true, chamfer: {radiu
 wände.push(Bodies.rectangle(340, 747, 144, 60, {isStatic: false, chamfer: {radius: [10,10,10,10]}}));
 wände.push(Bodies.rectangle(364, 700, 96, 52, {isStatic: false, chamfer: {radius: [10,10,10,10]}}));
 wände.push(Bodies.rectangle(388, 652, 48, 45, {isStatic: false, chamfer: {radius: [10,10,10,10]}}));
-
 
 //obere Balken
 mauern.push(Bodies.rectangle(545, 52, 23, 107, {isStatic: true, chamfer: {radius: [0,0,10,10]}}));
@@ -90,20 +89,24 @@ walls.push(Bodies.rectangle(1167, 588, 113, 17, {isStatic: true, angle: Math.PI 
 walls.push(Bodies.rectangle(1280, 230, 113, 17, {isStatic: true, angle: Math.PI * -0.20, chamfer: {radius: [5,5,5,5]}}));
 walls.push(Bodies.rectangle(1399, 540, 98, 17, {isStatic: true, angle: Math.PI * -0.15, chamfer: {radius: [5,5,5,5]}}));
 
-wände.push(Bodies.rectangle(721, 830, 1443, 108, {isStatic: true}));
+// Rahmen
+boden.push(Bodies.rectangle(721, 830, 1443, 108, { isStatic: true, label: 'boden'}));
+boden.push(Bodies.rectangle(721, -54, 1443, 108, { isStatic: true}));
+boden.push(Bodies.rectangle(1495, 442, 108, 884, { isStatic: true}));
+boden.push(Bodies.rectangle(-54, 455, 108, 910, { isStatic: true}));
+
+// Ziel
+ziel.push(Bodies.rectangle(1396, 56, 55, 55, { isStatic: true, label: 'ziel', chamfer: {radius: 10}}));
 
 World.add(engine.world, wände)
 World.add(engine.world, mauern)
 World.add(engine.world, walls)
+World.add(engine.world, boden)
+World.add(engine.world, ziel)
 
-
- // World.add(world, [
-  //   Bodies.rectangle(200, 200, 100, 100, { 
-  //       chamfer: { radius: 20 }
-  //   }),
 
 //Board 1   
-    board1 = Bodies.rectangle(50, 180, 100, 30, {chamfer: {radius: 13}});
+    board1 = Bodies.rectangle(50, 180, 100, 30, {chamfer: {radius: 13}, density: 7});
     blocks1.push(board1);
 
     constraint1 = Constraint.create({
@@ -124,7 +127,7 @@ World.add(engine.world, walls)
   World.add(engine.world, [board1, constraint1, constraint2]);
 
 //Board 2
-    board2 = Bodies.rectangle(50, 230, 100, 30, {chamfer: {radius: 13}});
+    board2 = Bodies.rectangle(50, 230, 100, 30, {chamfer: {radius: 13}, density:7});
     blocks2.push(board2);
 
     constraint3 = Constraint.create({
@@ -144,7 +147,7 @@ World.add(engine.world, walls)
   World.add(engine.world, [board2, constraint3, constraint4]);
 
 //Board 3
-    board3 = Bodies.rectangle(50, 280, 100, 30, {chamfer: {radius: 13}});
+    board3 = Bodies.rectangle(50, 280, 100, 30, {chamfer: {radius: 13}, density: 7});
     blocks3.push(board3);
 
       constraint5 = Constraint.create({
@@ -164,7 +167,7 @@ World.add(engine.world, walls)
     World.add(engine.world, [board3, constraint5, constraint6]);
 
 //Board 4
-      board4 = Bodies.rectangle(50, 330, 100, 30, {chamfer: {radius: 13}});
+      board4 = Bodies.rectangle(50, 330, 100, 30, {chamfer: {radius: 13, density: 7}});
       blocks4.push(board4);
 
        constraint7 = Constraint.create({
@@ -182,45 +185,54 @@ World.add(engine.world, walls)
       boardConstraints.push([constraint7, constraint8]);
       World.add(engine.world, [board4, constraint7, constraint8]);
 
-  // Matter.Events.on(engine, 'collisionStart', function (event) {
-  //   const pairs = event.pairs[0];
-  //   const bodyA = pairs.bodyA;
-  //   const bodyB = pairs.bodyB;
+  Matter.Events.on(engine, 'collisionStart', function (event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
 
-  //   //Boden
-  //   if (bodyA.label === "ball" && bodyB.label === "boden") {
-  //     Matter.World.remove(engine.world, blocks[25]),
-  //     Matter.Body.setPosition(balls, { x: 10, y: 10 })
-  //     //alert ("You Lost")
-  //     }
-  //   });
+  //Boden
+  if (bodyA.label === "ball" && bodyB.label === "boden") {
+    // Matter.World.remove(engine.world, boden[0]),
+    Matter.Body.setPosition(circle, { x: 10, y: 10 })
+    }
+ 
+  //Ziel
+  if (bodyA.label === "ball" && bodyB.label === "ziel") {
+    // Matter.World.remove(engine.world, boden[0]),
+    // Matter.Body.setPosition(circle, { x: 10, y: 10 })
+    alert ("You Won")
+    }
+  });
   
-
   Engine.run(engine);
 }
 
 function draw() {
-    background(255);
+    clear()
     noStroke();
-    fill(0);
     
+    fill(255);
     drawVertices(circle.vertices);
 
-    fill(255, 200, 250);    
+    fill('#EDAD36');    
     blocks1.forEach(board => drawBody(board))
-    fill(200, 0, 250);    
+    fill('#629DD2');    
     blocks2.forEach(board => drawBody(board))
-    fill(255, 200, 0);    
+    fill('#BA4F0B');    
     blocks3.forEach(board => drawBody(board))
-    fill(255, 0, 0);    
+    fill('#12584D');    
     blocks4.forEach(board => drawBody(board))
 
-    fill(0, 200, 250);
+    fill('#668985');
     wände.forEach(board => drawBody(board))
-    fill(0, 0, 250);
+    fill('#7280A6');
     mauern.forEach(board => drawBody(board))
-    fill(0, 200, 0);
+    fill('#998191');
     walls.forEach(board => drawBody(board))
+    fill(180);
+    boden.forEach(board => drawBody(board))
+    fill(0);
+    ziel.forEach(board => drawBody(board))
 }
 
 function drawBody(body) {
