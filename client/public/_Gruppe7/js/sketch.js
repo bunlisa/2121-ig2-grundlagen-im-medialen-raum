@@ -29,18 +29,19 @@ let wände = []
 let mauern = []
 let walls = []
 let boden = []
+let ziel = []
 
 let boardConstraints = []
 
-function keyPressed() {
-  if (key == " ") {
-    socket.emit('serverEvent', { type: "reset" });
-  }
-}
-// Event when connecting 
-socket.on('connected', function (msg) {
-  socket.emit('serverEvent', { type: "reset" });
-});
+// function keyPressed() {
+//   if (key == " ") {
+//     socket.emit('serverEvent', { type: "reset" });
+//   }
+// }
+// // Event when connecting 
+// socket.on('connected', function (msg) {
+//   socket.emit('serverEvent', { type: "reset" });
+// });
 
 
 function setup() {
@@ -93,12 +94,20 @@ function setup() {
   walls.push(Bodies.rectangle(1167, 588, 113, 17, { isStatic: true, angle: Math.PI * -0.06 }));
   walls.push(Bodies.rectangle(1399, 540, 98, 17, { isStatic: true, angle: Math.PI * -0.15 }));
 
+  // Rahmen
   boden.push(Bodies.rectangle(721, 830, 1443, 108, { isStatic: true, label: 'boden'}));
+  boden.push(Bodies.rectangle(721, -54, 1443, 108, { isStatic: true}));
+  boden.push(Bodies.rectangle(1495, 455, 108, 910, { isStatic: true}));
+  boden.push(Bodies.rectangle(-54, 455, 108, 910, { isStatic: true}));
+
+  // Ziel
+  ziel.push(Bodies.rectangle(1396, 56, 55, 55, { isStatic: true, label: 'ziel'}));
 
   World.add(engine.world, wände)
   World.add(engine.world, mauern)
   World.add(engine.world, walls)
   World.add(engine.world, boden)
+  World.add(engine.world, ziel)
 
 
   //Board 1   
@@ -191,9 +200,16 @@ function setup() {
 
     //Boden
     if (bodyA.label === "ball" && bodyB.label === "boden") {
-      Matter.World.remove(engine.world, boden[0]),
+      // Matter.World.remove(engine.world, boden[0]),
       Matter.Body.setPosition(circle, { x: 10, y: 10 })
-      //alert ("You Lost")
+      }
+   
+
+    //Ziel
+    if (bodyA.label === "ball" && bodyB.label === "ziel") {
+      // Matter.World.remove(engine.world, boden[0]),
+      // Matter.Body.setPosition(circle, { x: 10, y: 10 })
+      alert ("You Won")
       }
     });
 
@@ -226,6 +242,8 @@ function draw() {
   walls.forEach(board => drawBody(board))
   fill(180);
   boden.forEach(board => drawBody(board))
+  fill(0);
+  ziel.forEach(board => drawBody(board))
 }
 
 function drawBody(body) {
