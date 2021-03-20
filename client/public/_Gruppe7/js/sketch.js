@@ -97,7 +97,7 @@ function setup() {
   // Rahmen
   boden.push(Bodies.rectangle(721, 830, 1443, 108, { isStatic: true, label: 'boden'}));
   boden.push(Bodies.rectangle(721, -54, 1443, 108, { isStatic: true}));
-  boden.push(Bodies.rectangle(1495, 455, 108, 910, { isStatic: true}));
+  boden.push(Bodies.rectangle(1495, 442, 108, 884, { isStatic: true}));
   boden.push(Bodies.rectangle(-54, 455, 108, 910, { isStatic: true}));
 
   // Ziel
