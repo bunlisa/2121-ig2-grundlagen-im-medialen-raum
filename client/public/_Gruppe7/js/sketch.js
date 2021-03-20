@@ -28,6 +28,7 @@ let blocks3 = []
 let wände = []
 let mauern = []
 let walls = []
+let boden = []
 
 let boardConstraints =[]
 
@@ -49,12 +50,12 @@ function setup() {
     engine = Engine.create();
 
     circle = Bodies.circle(200, 50, 25, {
-      restitution: 0.1
+      restitution: 0.1, label: 'ball'
     });
-    circle.plugin.wrap = {
-      min: { x: 0, y: 0 },
-      max: { x: width, y: height }
-    };
+    // circle.plugin.wrap = {
+    //   min: { x: 0, y: 0 },
+    //   max: { x: width, y: height }
+    // };
 
     World.add(engine.world, [circle]);
 // 1.Stufe
@@ -88,14 +89,15 @@ walls.push(Bodies.rectangle(1278, 521, 86, 17, {isStatic: true, angle: Math.PI *
 walls.push(Bodies.rectangle(1167, 588, 113, 17, {isStatic: true, angle: Math.PI * -0.06}));
 walls.push(Bodies.rectangle(1399, 540, 98, 17, {isStatic: true, angle: Math.PI * -0.15}));
 
-wände.push(Bodies.rectangle(721, 830, 1443, 108, {isStatic: true}));
+boden.push(Bodies.rectangle(721, 830, 1443, 108, {isStatic: true, label: 'boden'}));
 
 World.add(engine.world, wände)
 World.add(engine.world, mauern)
 World.add(engine.world, walls)
+World.add(engine.world, boden)
 
 //Board 1   
-    board1 = Bodies.rectangle(50, 180, 100, 30, {color: 'blue'});
+    board1 = Bodies.rectangle(50, 180, 100, 30);
     blocks1.push(board1);
 
     constraint1 = Constraint.create({
@@ -116,7 +118,7 @@ World.add(engine.world, walls)
   World.add(engine.world, [board1, constraint1, constraint2]);
 
 //Board 2
-    board2 = Bodies.rectangle(50, 230, 100, 30, {color: 'green'});
+    board2 = Bodies.rectangle(50, 230, 100, 30);
     blocks2.push(board2);
 
     constraint3 = Constraint.create({
@@ -139,7 +141,7 @@ World.add(engine.world, walls)
 
 
 //Board 3
-    board3 = Bodies.rectangle(50, 280, 100, 30, {color: 'red'});
+    board3 = Bodies.rectangle(50, 280, 100, 30);
     blocks3.push(board3);
 
       constraint5 = Constraint.create({
@@ -159,7 +161,7 @@ World.add(engine.world, walls)
     World.add(engine.world, [board3, constraint5, constraint6]);
 
 //Board 4
-      board4 = Bodies.rectangle(50, 330, 100, 30, {color: 'orange'});
+      board4 = Bodies.rectangle(50, 330, 100, 30);
       blocks4.push(board4);
 
        constraint7 = Constraint.create({
@@ -177,18 +179,18 @@ World.add(engine.world, walls)
       boardConstraints.push([constraint7, constraint8]);
       World.add(engine.world, [board4, constraint7, constraint8]);
 
-  // Matter.Events.on(engine, 'collisionStart', function (event) {
-  //   const pairs = event.pairs[0];
-  //   const bodyA = pairs.bodyA;
-  //   const bodyB = pairs.bodyB;
+  Matter.Events.on(engine, 'collisionStart', function (event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
 
-  //   //Boden
-  //   if (bodyA.label === "ball" && bodyB.label === "boden") {
-  //     Matter.World.remove(engine.world, blocks[25]),
-  //     Matter.Body.setPosition(balls, { x: 10, y: 10 })
-  //     //alert ("You Lost")
-  //     }
-  //   });
+    //Boden
+    if (bodyA.label === "ball" && bodyB.label === "boden") {
+      Matter.World.remove(engine.world, boden[0]),
+      Matter.Body.setPosition(circle, { x: 10, y: 10 })
+      // alert ("You Lost")
+      }
+    });
   
 
   Engine.run(engine);
@@ -216,6 +218,8 @@ function draw() {
     mauern.forEach(board => drawBody(board))
     fill(0, 200, 0);
     walls.forEach(board => drawBody(board))
+    fill(180);
+    boden.forEach(board => drawBody(board))
 }
 
 function drawBody(body) {
